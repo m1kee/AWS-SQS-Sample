@@ -5,13 +5,13 @@ namespace Messages;
 public class GenerateReportMessage : IMessage
 {
     [JsonPropertyName("guid")]
-    public required Guid Guid { get; init; }
+    public Guid Guid { get; init; }
 
     [JsonPropertyName("name")]
-    public required string Name { get; init; }
+    public string Name { get; init; } = default!;
 
     [JsonPropertyName("requestedUser")]
-    public required string RequestedUser { get; init; }
+    public string RequestedUser { get; init; } = default!;
 
     [JsonIgnore]
     public string MessageTypeName => nameof(GenerateReportMessage);

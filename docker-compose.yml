@@ -1,10 +1,10 @@
 version: "1.0.0"
 services:
-  worker-a:
+  generic-worker-a:
     build: .
     volumes: 
       - $USERPROFILE\.aws\credentials:/root/.aws/credentials:ro
-  worker-b:
+  generic-worker-b:
     build: .
     volumes: 
       - $USERPROFILE\.aws\credentials:/root/.aws/credentials:ro

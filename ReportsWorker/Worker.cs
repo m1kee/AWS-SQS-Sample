@@ -11,15 +11,15 @@ public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
     private readonly IAmazonSQS _sqs;
-    private readonly GenerateReportHandler _handler;
+    private readonly MessageDispatcher _dispatcher;
     private const string QueueName = "Reports";
     private readonly List<string> _messageAttributeNames = new() { "All" };
 
-    public Worker(ILogger<Worker> logger, IAmazonSQS sqs, GenerateReportHandler handler)
+    public Worker(ILogger<Worker> logger, IAmazonSQS sqs, MessageDispatcher dispatcher)
     {
         _logger = logger;
         _sqs = sqs;
-        _handler = handler;
+        _dispatcher = dispatcher;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -49,8 +49,25 @@ public class Worker : BackgroundService
             {
                 try
                 {
-                    IMessage generateReportMessage = (IMessage)JsonSerializer.Deserialize<GenerateReportMessage>(message.Body)!;
-                    await _handler.HandleAsync(generateReportMessage);
+                    var messageTypeName = message.MessageAttributes
+                    .GetValueOrDefault(nameof(IMessage.MessageTypeName))?.StringValue;
+
+                    if (messageTypeName is null)
+                    {
+                        throw new Exception("Missing MessageTypeName metadata, message will be ignored");
+                    }
+
+                    _logger.LogInformation($"Check if worker can handle message with MessageTypeName: {messageTypeName}.");
+                    if (!_dispatcher.CanHandleMessageType(messageTypeName))
+                    {
+                        throw new Exception("This worker can't handle the message, message will be skiped");
+                    }
+
+                    // this should return a GenerateReportMessage type
+                    var messageType = _dispatcher.GetMessageTypeByName(messageTypeName)!;
+
+                    IMessage messageAsType = (IMessage)JsonSerializer.Deserialize(message.Body, messageType)!;
+                    await _dispatcher.DispatchAsync(messageAsType);
 
                     // delete after processing the message
                     await _sqs.DeleteMessageAsync(queue.QueueUrl, message.ReceiptHandle, stoppingToken);

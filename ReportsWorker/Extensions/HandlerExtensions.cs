@@ -14,7 +14,7 @@ public static class HandlerExtensions
         foreach (Assembly assembly in assemblies)
         {
             var handlers = assembly.DefinedTypes
-                .Where(x => typeof(IMessageHandler).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                .Where(x => messageHandlerType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
                 .Select(x => x.AsType())
                 .ToList();
             

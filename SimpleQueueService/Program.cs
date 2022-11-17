@@ -3,7 +3,6 @@ using Amazon.SQS;
 using Messages;
 using SimpleQueueService;
 
-
 var client = new AmazonSQSClient(RegionEndpoint.USEast1);
 var dispatcher = new Dispatcher(client);
 

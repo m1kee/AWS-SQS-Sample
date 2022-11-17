@@ -14,10 +14,12 @@ public class MessageDispatcher
     private readonly Dictionary<string, Type> _messageMappings;/* = new()
     {
         { nameof(GenerateReportMessage), typeof(GenerateReportMessage) },
+        { nameof(GenerateReportMessage), typeof(GenerateReportMessage) },
     };*/
     
     private readonly Dictionary<string, Func<IServiceProvider, IMessageHandler>> _handlers;/* = new()
     {
+        { nameof(GenerateReportMessage), provider => provider.GetRequiredService<GenerateReportHandler>() },
         { nameof(GenerateReportMessage), provider => provider.GetRequiredService<GenerateReportHandler>() },
     };*/
 

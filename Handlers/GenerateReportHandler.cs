@@ -14,11 +14,11 @@ public class GenerateReportHandler : IMessageHandler
 
     public Task HandleAsync(IMessage message) 
     {
-        var generateReportMessage = (GenerateReport)message;
+        var generateReportMessage = (GenerateReportMessage)message;
         _logger.LogInformation(generateReportMessage.ToString());
 
         return Task.CompletedTask;
     }
 
-    public static Type MessageType { get; } = typeof(GenerateReport);
+    public static Type MessageType { get; } = typeof(GenerateReportMessage);
 }

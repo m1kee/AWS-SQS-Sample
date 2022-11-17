@@ -42,11 +42,14 @@ public class Worker : BackgroundService
                 continue;
             }
 
+            // waiting 3 seconds after processing messages
+            await Task.Delay(3000);
+
             foreach (Message message in response.Messages)
             {
                 try
                 {
-                    IMessage generateReportMessage = (IMessage)JsonSerializer.Deserialize<GenerateReport>(message.Body)!;
+                    IMessage generateReportMessage = (IMessage)JsonSerializer.Deserialize<GenerateReportMessage>(message.Body)!;
                     await _handler.HandleAsync(generateReportMessage);
 
                     // delete after processing the message

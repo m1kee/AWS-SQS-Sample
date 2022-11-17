@@ -11,7 +11,6 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddHostedService<Worker>();
         services.AddSingleton<IAmazonSQS>(_ => new AmazonSQSClient(Amazon.RegionEndpoint.USEast1));
         services.AddSingleton<GenerateReportHandler>();
-
     })
     .Build();
 

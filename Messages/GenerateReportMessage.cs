@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Messages;
 
-public class GenerateReport : IMessage
+public class GenerateReportMessage : IMessage
 {
     [JsonPropertyName("guid")]
     public required Guid Guid { get; init; }
@@ -14,7 +14,7 @@ public class GenerateReport : IMessage
     public required string RequestedUser { get; init; }
 
     [JsonIgnore]
-    public string MessageTypeName => nameof(GenerateReport);
+    public string MessageTypeName => nameof(GenerateReportMessage);
 
     public override string ToString()
     {

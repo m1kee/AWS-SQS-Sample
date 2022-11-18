@@ -16,7 +16,6 @@ public class GenerateReportHandler : IMessageHandler
     {
         var generateReportMessage = (GenerateReportMessage)message;
         _logger.LogInformation(generateReportMessage.ToString());
-
         return Task.CompletedTask;
     }
 

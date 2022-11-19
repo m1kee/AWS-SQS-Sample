@@ -5,13 +5,13 @@ WORKDIR /app
 COPY . ./
 
 # Restore as distinct layers
-RUN dotnet restore ./ReportsWorker
+RUN dotnet restore ./SimpleQueueService
 
 # Build and publish a release
-RUN dotnet publish ./ReportsWorker -c Release -o worker
+RUN dotnet publish ./SimpleQueueService -c Release -o worker
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine
 WORKDIR /app
 COPY --from=builder /app/worker .
-ENTRYPOINT ["dotnet", "ReportsWorker.dll"]
+ENTRYPOINT ["dotnet", "SimpleQueueService.dll"]

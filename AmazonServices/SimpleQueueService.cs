@@ -2,6 +2,7 @@
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Microsoft.Extensions.Logging;
+using Messages;
 
 namespace AmazonServices;
 

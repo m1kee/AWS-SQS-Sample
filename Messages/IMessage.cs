@@ -1,4 +1,4 @@
-namespace AmazonServices;
+namespace Messages;
 
 public interface IMessage 
 {

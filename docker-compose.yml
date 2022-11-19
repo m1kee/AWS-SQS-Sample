@@ -1,10 +1,18 @@
 version: "1.0.0"
 services:
-  generic-worker-a:
+  worker-consumer-a:
+    container_name: worker-a
     build: .
     volumes: 
       - $USERPROFILE\.aws\credentials:/root/.aws/credentials:ro
-  generic-worker-b:
+  worker-consumer-b:
+    container_name: worker-b
     build: .
     volumes: 
       - $USERPROFILE\.aws\credentials:/root/.aws/credentials:ro
+  publisher:
+    build: 
+      dockerfile: ./SimpleQueueService.Dockerfile
+    volumes: 
+      - $USERPROFILE\.aws\credentials:/root/.aws/credentials:ro
+

@@ -1,3 +1,4 @@
+using AmazonServices;
 using Messages;
 using Microsoft.Extensions.Logging;
 
@@ -14,8 +15,8 @@ public class GenerateReportHandler : IMessageHandler
 
     public Task HandleAsync(IMessage message) 
     {
-        var generateReportMessage = (GenerateReportMessage)message;
-        _logger.LogInformation(generateReportMessage.ToString());
+        var messageAsType = Convert.ChangeType(message, MessageType);
+        _logger.LogInformation(messageAsType.ToString());
         return Task.CompletedTask;
     }
 

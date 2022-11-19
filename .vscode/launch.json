@@ -5,14 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": ".NET Core Launch (ReportsWorker)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/ReportsWorker/bin/Debug/net6.0/ReportsWorker.dll",
+            "preLaunchTask": "build-worker",
+            "program": "${workspaceFolder}/ReportsWorker/bin/Debug/net7.0/ReportsWorker.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
+            "console": "externalTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Launch (SimpleQueueService)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-simple-queue-service",
+            "program": "${workspaceFolder}/SimpleQueueService/bin/Debug/net7.0/SimpleQueueService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "console": "externalTerminal",
             "stopAtEntry": false
         },
         {

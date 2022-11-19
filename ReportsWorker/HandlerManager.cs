@@ -1,29 +1,17 @@
 using System.Reflection;
-using System.Text.Json;
+using AmazonServices;
 using Handlers;
-using Messages;
-
 
 namespace ReportsWorker;
 
-public class MessageDispatcher
+public class HandlerManager
 {
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ILogger<MessageDispatcher> _logger;
+    private readonly ILogger<HandlerManager> _logger;
+    private readonly Dictionary<string, Type> _messageMappings;
+    private readonly Dictionary<string, Func<IServiceProvider, IMessageHandler>> _handlers;
 
-    private readonly Dictionary<string, Type> _messageMappings;/* = new()
-    {
-        { nameof(GenerateReportMessage), typeof(GenerateReportMessage) },
-        { nameof(GenerateReportMessage), typeof(GenerateReportMessage) },
-    };*/
-    
-    private readonly Dictionary<string, Func<IServiceProvider, IMessageHandler>> _handlers;/* = new()
-    {
-        { nameof(GenerateReportMessage), provider => provider.GetRequiredService<GenerateReportHandler>() },
-        { nameof(GenerateReportMessage), provider => provider.GetRequiredService<GenerateReportHandler>() },
-    };*/
-
-    public MessageDispatcher(IServiceScopeFactory scopeFactory, ILogger<MessageDispatcher> logger)
+    public HandlerManager(IServiceScopeFactory scopeFactory, ILogger<HandlerManager> logger)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
@@ -65,7 +53,7 @@ public class MessageDispatcher
         _logger.LogInformation($"mappings: {string.Join(Environment.NewLine, _messageMappings)}");
     }
 
-    public async Task DispatchAsync<TMessage>(TMessage message)
+    public async Task HandleAsync<TMessage>(TMessage message)
         where TMessage : IMessage
     {
         using var scope = _scopeFactory.CreateScope();
@@ -75,11 +63,13 @@ public class MessageDispatcher
 
     public bool CanHandleMessageType(string messageTypeName)
     {
+        _logger.LogInformation($"Check if worker can handle message with MessageTypeName: {messageTypeName}.");
         return _handlers.ContainsKey(messageTypeName);
     }
 
     public Type? GetMessageTypeByName(string messageTypeName)
     {
+        _logger.LogInformation($"Getting type of: {messageTypeName}.");
         return _messageMappings.GetValueOrDefault(messageTypeName);
     }
 }

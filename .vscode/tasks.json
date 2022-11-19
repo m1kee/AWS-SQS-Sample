@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "build-worker",
             "command": "dotnet",
             "type": "shell",
             "group": "build",
@@ -14,6 +14,22 @@
             "args": [
                 "build",
                 "${workspaceFolder}/ReportsWorker/ReportsWorker.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-simple-queue-service",
+            "command": "dotnet",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "args": [
+                "build",
+                "${workspaceFolder}/SimpleQueueService/SimpleQueueService.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

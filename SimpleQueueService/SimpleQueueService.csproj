@@ -9,11 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.SQS" Version="3.7.100.19" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.100.21" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Messages\Messages.csproj" />
+    <ProjectReference Include="..\AmazonServices\AmazonServices.csproj" />
   </ItemGroup>
 
 </Project>
